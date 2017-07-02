@@ -13,6 +13,10 @@ figure; hold on;
 %
 
 
+pos = find(y == 1);
+neg = find(y == 0);
+plot(X(pos, 1), X(pos, 2), 'k+', 'LineWidth', 1, 'markeredgecolor', 'b')
+plot(X(neg, 1), X(neg, 2), 'ko', 'LineWidth', 1, 'MarkerFaceColor', 'y')
 
 
 

@@ -20,6 +20,16 @@ grad = zeros(size(theta));
 
 
 
+% X: n * m
+% theta: m * 1
+% h - y: n * 1
+% 尝试移除 p（过拟合），或者增加 lambda 的大小（欠拟合）
+theta1 = [0; theta(2:end)]
+h = sigmoid(X * theta)
+p = lambda * theta1' * theta1 / (2 * m)
+% p = lambda * sum(theta1 .* theta1) / (2 * m)
+J = (-y' * log(h) - (1 - y)' * log(1 - h)) / m + p
+grad = (X' * (h - y) + lambda * theta1) / m
 
 
 % =============================================================
