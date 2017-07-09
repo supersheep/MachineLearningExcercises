@@ -23,6 +23,15 @@ p = zeros(size(X, 1), 1);
 
 
 
+X = [ones(m, 1), X]
+a1 = X
+a2 = sigmoid(a1 * Theta1')
+% 每一层都要记得加常量维度
+a2 = [ones(m, 1), a2]
+a3 = sigmoid(a2 * Theta2')
+% 最终a3仍将为每个class上的可能性
+% 老办法，使用max方法
+[M, p] = max(a3, [], 2)
 
 
 
