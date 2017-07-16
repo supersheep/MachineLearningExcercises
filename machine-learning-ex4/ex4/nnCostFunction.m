@@ -62,22 +62,39 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+% 
+Theta1_x = Theta1(:,(2:end));   % 去掉theta1(0)
+Theta2_x = Theta2(:,(2:end));   % 去掉theta2(0)
+Theta = [Theta1_x(:);Theta2_x(:)]; % 向量化
+regterm = Theta .* Theta
+
+Y = zeros(m, num_labels);
+for i=1:num_labels
+    Y(:, i) = y == i
+end
+
+% 正向传播
+a1 = [ones(m, 1), X]; % 头上加一行1
+z2 = a1 * Theta1';
+a2 = sigmoid(z2);
+a2 = [ones(m, 1), a2]; % 头上加一行1
+z3 = a2 * Theta2';
+h = sigmoid(z3);
 
 
+p = sum(sum(Theta1_x.^2)) + sum(sum(Theta2_x.^2)); % 所有Theta的平方和
+J = - sum(sum(Y .* log(h) + (1-Y) .* log(1-h))) / m + lambda * p / (2 * m);
 
+% 反向传播求梯度
+for i = 1:m
+    delta3(i,:) = h(i,:) - Y(i,:);  %误差率
+    Theta2_grad = Theta2_grad + delta3(i,:)' * a2(i,:); %前一层
+    delta2(i,:) = (delta3(i,:) * Theta2_x) .* sigmoidGradient(z2(i,:));
+    Theta1_grad = Theta1_grad + delta2(i,:)' * a1(i,:);
+end
 
-
-
-
-
-
-
-
-
-
-
-
-
+Theta1(:,1) = 0;
+Theta2(:,1) = 0;
 
 
 % -------------------------------------------------------------
@@ -85,7 +102,8 @@ Theta2_grad = zeros(size(Theta2));
 % =========================================================================
 
 % Unroll gradients
-grad = [Theta1_grad(:) ; Theta2_grad(:)];
+% grad = [Theta1_grad(:) ; Theta2_grad(:)];
+grad = ([Theta1_grad(:);Theta2_grad(:)]+lambda*[Theta1(:);Theta2(:)])/m;
 
 
 end
