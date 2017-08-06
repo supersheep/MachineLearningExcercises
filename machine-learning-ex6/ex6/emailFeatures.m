@@ -49,10 +49,8 @@ x = zeros(n, 1);
 %
 
 
-
-
-
-
+% has some word positioning (i) in word_indices
+x = arrayfun(@(i) ~isempty(word_indices(word_indices==i)), 1:n);
 
 
 % =========================================================================
