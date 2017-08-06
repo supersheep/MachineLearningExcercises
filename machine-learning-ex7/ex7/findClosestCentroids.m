@@ -21,6 +21,18 @@ idx = zeros(size(X,1), 1);
 % Note: You can use a for-loop over the examples to compute this.
 %
 
+for i = 1:length(idx)
+    lengths_to_centroids = zeros(K, 1)
+    for k = 1:K
+        % 计算到所有centroid的距离
+        % 每行一组数据
+        lengths_to_centroids(k) = sum((X(i, :) - centroids(k, :)).^2);
+    end
+    
+    [num, index] = min(lengths_to_centroids);
+    
+    idx(i) = index;
+end
 
 
 
