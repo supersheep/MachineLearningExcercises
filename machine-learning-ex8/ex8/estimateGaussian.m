@@ -21,8 +21,8 @@ sigma2 = zeros(n, 1);
 %               should contain variance of the i-th feature.
 %
 
-
-
+mu = mean(X)'; % 均值
+sigma2 = var(X, 1)'; % 均方差
 
 
 
